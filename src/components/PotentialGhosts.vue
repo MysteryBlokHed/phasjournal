@@ -1,27 +1,25 @@
 <template>
   <div>
     <h1>Potential Ghosts</h1>
-    <table>
+    <table v-if="!!ghosts.length">
       <thead>
         <tr>
-          <th>Ghost Type</th>
-          <th>Evidence</th>
-          <th>Strength</th>
-          <th>Weakness</th>
+          <th width="100">Ghost Type</th>
+          <th width="200">Evidence</th>
+          <th width="300">Strength</th>
+          <th width="300">Weakness</th>
         </tr>
       </thead>
       <tbody align="center">
         <tr v-for="ghost in ghosts" :key="ghost.type">
-          <td width="100">{{ ghost.type }}</td>
-          <td
-            width="200"
-            v-html="formatEvidence(ghost.evidence, evidencePresent)"
-          ></td>
-          <td width="300">{{ ghost.strength }}</td>
-          <td width="300">{{ ghost.weakness }}</td>
+          <td>{{ ghost.type }}</td>
+          <td v-html="formatEvidence(ghost.evidence, evidencePresent)"></td>
+          <td>{{ ghost.strength }}</td>
+          <td>{{ ghost.weakness }}</td>
         </tr>
       </tbody>
     </table>
+    <p v-else>No possible ghosts.</p>
   </div>
 </template>
 
@@ -56,9 +54,15 @@ export default defineComponent({
     }
   },
   props: {
-    ghosts: Array as PropType<Array<Ghost>>,
-    evidencePresent: Array as PropType<Array<Evidence>>,
-    evidenceNotPresent: Array as PropType<Array<Evidence>>,
+    ghosts: { type: Array as PropType<Array<Ghost>>, required: true },
+    evidencePresent: {
+      type: Array as PropType<Array<Evidence>>,
+      required: true,
+    },
+    evidenceNotPresent: {
+      type: Array as PropType<Array<Evidence>>,
+      required: true,
+    },
   },
 })
 </script>
