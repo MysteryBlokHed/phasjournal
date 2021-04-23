@@ -1,22 +1,27 @@
 <template>
   <div>
     <h1>Potential Ghosts</h1>
-    <ul>
-      <li v-for="ghost in ghosts" :key="ghost.type">
-        <b class="ghost-type">{{ ghost.type }}</b>
-        <ul>
-          <li v-html="formatEvidence(ghost.evidence, evidencePresent)"></li>
-          <li>
-            <u>Strength:</u>
-            {{ ghost.strength }}
-          </li>
-          <li>
-            <u>Weakness:</u>
-            {{ ghost.weakness }}
-          </li>
-        </ul>
-      </li>
-    </ul>
+    <table>
+      <thead>
+        <tr>
+          <th>Ghost Type</th>
+          <th>Evidence</th>
+          <th>Strength</th>
+          <th>Weakness</th>
+        </tr>
+      </thead>
+      <tbody align="center">
+        <tr v-for="ghost in ghosts" :key="ghost.type">
+          <td width="100">{{ ghost.type }}</td>
+          <td
+            width="200"
+            v-html="formatEvidence(ghost.evidence, evidencePresent)"
+          ></td>
+          <td width="300">{{ ghost.strength }}</td>
+          <td width="300">{{ ghost.weakness }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
@@ -40,7 +45,7 @@ let formatEvidence = (
       htmlEvidence.push(`<span class="unknown-presence">${e as string}</span>`)
   }
 
-  return `<u>Evidence:</u> ${htmlEvidence.join(', ')}`
+  return htmlEvidence.join(', ')
 }
 
 export default defineComponent({
@@ -64,19 +69,10 @@ span.present {
 }
 </style>
 <style scoped>
-ul {
-  list-style-type: none;
-}
-
-li {
-  margin-top: 1rem;
-}
-
-li::before {
-  content: '- ';
-}
-
-.ghost-type {
-  font-size: 1.375rem;
+table {
+  padding: 0.5rem;
+  border: 1px solid #fcecdd;
+  border-collapse: separate;
+  border-spacing: 0 0.5rem;
 }
 </style>
