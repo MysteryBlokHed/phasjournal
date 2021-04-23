@@ -76,7 +76,7 @@ export default defineComponent({
 
 <style>
 body {
-  background-color: #1a1a2e;
+  background-color: #0b0e11;
   font-size: 1.125rem;
 }
 
