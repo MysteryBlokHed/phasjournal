@@ -26,7 +26,7 @@ let formatEvidence = (
 
   // Format evidence
   for (let i = 0; i < evidence.length; i++) {
-    let e: Evidence = evidence[i] as Evidence
+    let e: Evidence = evidence[i]
 
     if (evidencePresent.includes(e))
       htmlEvidence.push(`<span class="present">${e as string}</span>`)
@@ -53,7 +53,12 @@ export default defineComponent({
 </script>
 
 <style>
-.present {
+span.present {
   color: green;
+}
+</style>
+<style scoped>
+li {
+  margin-top: 1rem;
 }
 </style>

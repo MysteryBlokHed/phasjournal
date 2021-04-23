@@ -1,5 +1,11 @@
 <template>
   <div id="app">
+    <EvidenceSelector
+      :evidencePresent="evidencePresent"
+      :evidenceNotPresent="evidenceNotPresent"
+      :updateEvidencePresent="updateEvidencePresent"
+      :updateEvidenceNotPresent="updateEvidenceNotPresent"
+    />
     <PotentialGhosts
       :ghosts="potentialGhosts"
       :evidencePresent="evidencePresent"
@@ -12,11 +18,13 @@
 import { defineComponent } from 'vue'
 import { Evidence, AllGhosts } from './types'
 import PotentialGhosts from './components/PotentialGhosts.vue'
+import EvidenceSelector from './components/EvidenceSelector.vue'
 
 export default defineComponent({
   name: 'App',
   components: {
     PotentialGhosts,
+    EvidenceSelector,
   },
   data() {
     return {
@@ -55,19 +63,31 @@ export default defineComponent({
       return newGhosts
     },
   },
+  methods: {
+    updateEvidencePresent(newEvidence: Evidence[]) {
+      this.evidencePresent = newEvidence
+    },
+    updateEvidenceNotPresent(newEvidence: Evidence[]) {
+      this.evidenceNotPresent = newEvidence
+    },
+  },
 })
 </script>
 
 <style>
 body {
   background-color: #1a1a2e;
+  font-size: 1.125rem;
+}
+
+h1 {
+  font-size: 2.25rem;
 }
 
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* text-align: center; */
   color: #fcecdd;
 }
 </style>
