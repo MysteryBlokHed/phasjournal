@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <PotentialGhosts
-      :ghosts="ghosts"
+      :ghosts="potentialGhosts"
       :evidencePresent="evidencePresent"
       :evidenceNotPresent="evidenceNotPresent"
     />
@@ -13,13 +13,6 @@ import { defineComponent } from 'vue'
 import { Evidence, AllGhosts } from './types'
 import PotentialGhosts from './components/PotentialGhosts.vue'
 
-let possibleGhosts = AllGhosts
-let evidencePresent: Evidence[] = []
-let evidenceNotPresent: Evidence[] = []
-
-evidencePresent.push(Evidence.Emf5)
-evidenceNotPresent.push(Evidence.SpiritBox)
-
 export default defineComponent({
   name: 'App',
   components: {
@@ -27,10 +20,40 @@ export default defineComponent({
   },
   data() {
     return {
-      ghosts: possibleGhosts,
-      evidencePresent: evidencePresent,
-      evidenceNotPresent: evidenceNotPresent,
+      evidencePresent: [] as Evidence[],
+      evidenceNotPresent: [] as Evidence[],
     }
+  },
+  computed: {
+    potentialGhosts() {
+      let ghosts = [...AllGhosts]
+      let newGhosts
+      const evidenceFound = this.evidencePresent.length
+      // Filter out ghosts by evidence not present
+      for (let i = 0; i < AllGhosts.length; i++)
+        for (let e of this.evidenceNotPresent)
+          if (AllGhosts[i].evidence.includes(e)) {
+            ghosts.splice(ghosts.indexOf(AllGhosts[i]), 1)
+            break
+          }
+
+      newGhosts = [...ghosts]
+
+      // Filter out ghosts who's evidence can not be found with current
+      // found evidence
+
+      for (let i = 0; i < ghosts.length; i++) {
+        let evidenceForGhost = 0
+
+        for (let e of this.evidencePresent)
+          if (ghosts[i].evidence.includes(e)) evidenceForGhost++
+
+        if (evidenceForGhost < evidenceFound)
+          newGhosts.splice(newGhosts.indexOf(ghosts[i]), 1)
+      }
+
+      return newGhosts
+    },
   },
 })
 </script>
