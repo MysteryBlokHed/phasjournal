@@ -1,5 +1,11 @@
 <template>
   <div id="app">
+    <h1 class="title">
+      PhasJournal
+      <a href="https://github.com/MysteryBlokHed/phasjournal" target="_blank">
+        GitHub
+      </a>
+    </h1>
     <EvidenceSelector
       :evidencePresent="evidencePresent"
       :evidenceNotPresent="evidenceNotPresent"
@@ -84,10 +90,20 @@ h1 {
   font-size: 2.25rem;
 }
 
+h1 a {
+  color: darkblue;
+  text-decoration: none;
+  font-size: 1.5rem;
+}
+
 #app {
   font-family: Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #fcecdd;
+}
+
+.title {
+  font-size: 3rem;
 }
 </style>
