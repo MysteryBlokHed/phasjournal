@@ -1,6 +1,13 @@
 <template>
   <div>
     <h1>Evidence</h1>
+    <p>
+      Click on evidence to toggle it.
+      <span class="present">Green</span>
+      = Present,
+      <span class="not-present">Red</span>
+      = Not Present
+    </p>
     <ul class="evidence-types">
       <li v-for="e in evidence" :key="e">
         <button @click="evidenceCycle" class="neutral" :evidence="e">
@@ -83,6 +90,10 @@ ul {
 
 ul li {
   float: left;
+}
+
+span.not-present {
+  color: red;
 }
 
 button {
