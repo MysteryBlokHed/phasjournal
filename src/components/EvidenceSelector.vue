@@ -14,6 +14,9 @@
           {{ e }}
         </button>
       </li>
+      <li>
+        <button @click="resetEvidence">Reset Evidence</button>
+      </li>
     </ul>
   </div>
 </template>
@@ -69,6 +72,17 @@ export default defineComponent({
           break
       }
     },
+    resetEvidence() {
+      const buttons = document.querySelector(
+        '.evidence-types'
+      ) as HTMLUListElement
+
+      for (let element of buttons.children)
+        element.children[0].className = 'neutral'
+
+      this.updateEvidencePresent([])
+      this.updateEvidenceNotPresent([])
+    },
   },
 })
 </script>
@@ -88,8 +102,12 @@ ul {
   display: inline-block;
 }
 
-ul li {
+li {
   float: left;
+}
+
+li:last-child {
+  margin-left: 5rem;
 }
 
 span.not-present {
