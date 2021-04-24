@@ -18,13 +18,6 @@
         <button @click="resetEvidence">Reset Evidence</button>
       </li>
     </ul>
-    <div id="unique-i-swear" v-if="evidenceNeeded.length">
-      <p>Evidence to Look For:</p>
-      <ul>
-        <li v-for="e in evidenceNeeded" :key="e">{{ e }}</li>
-      </ul>
-    </div>
-    <p v-else>No evidence to look for.</p>
   </div>
 </template>
 

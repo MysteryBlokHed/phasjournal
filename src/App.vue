@@ -14,6 +14,11 @@
       :updateEvidenceNotPresent="updateEvidenceNotPresent"
       :updateEvidenceInCommon="updateEvidenceInCommon"
     />
+    <EvidenceNeeded
+      :ghosts="potentialGhosts"
+      :evidencePresent="evidencePresent"
+      :updateEvidenceInCommon="updateEvidenceInCommon"
+    />
     <PotentialGhosts
       :ghosts="potentialGhosts"
       :evidencePresent="evidencePresent"
@@ -28,12 +33,14 @@ import { defineComponent } from 'vue'
 import { Evidence, AllGhosts } from './types'
 import PotentialGhosts from './components/PotentialGhosts.vue'
 import EvidenceSelector from './components/EvidenceSelector.vue'
+import EvidenceNeeded from './components/EvidenceNeeded.vue'
 
 export default defineComponent({
   name: 'App',
   components: {
     PotentialGhosts,
     EvidenceSelector,
+    EvidenceNeeded,
   },
   data() {
     return {
