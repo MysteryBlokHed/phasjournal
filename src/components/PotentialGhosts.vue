@@ -13,7 +13,11 @@
       <tbody align="center">
         <tr v-for="ghost in ghosts" :key="ghost.type">
           <td>{{ ghost.type }}</td>
-          <td v-html="formatEvidence(ghost.evidence, evidencePresent)"></td>
+          <td
+            v-html="
+              formatEvidence(ghost.evidence, evidencePresent, evidenceInCommon)
+            "
+          ></td>
           <td>{{ ghost.strength }}</td>
           <td>{{ ghost.weakness }}</td>
         </tr>
@@ -29,7 +33,8 @@ import { Evidence, Ghost } from '../types'
 
 let formatEvidence = (
   evidence: Evidence[],
-  evidencePresent: Evidence[]
+  evidencePresent: Evidence[],
+  evidenceInCommon: Evidence[]
 ): string => {
   let htmlEvidence = [] as Array<string>
 
@@ -37,7 +42,7 @@ let formatEvidence = (
   for (let i = 0; i < evidence.length; i++) {
     let e: Evidence = evidence[i]
 
-    if (evidencePresent.includes(e))
+    if (evidencePresent.includes(e) || evidenceInCommon.includes(e))
       htmlEvidence.push(`<span class="present">${e as string}</span>`)
     else
       htmlEvidence.push(`<span class="unknown-presence">${e as string}</span>`)
@@ -60,6 +65,10 @@ export default defineComponent({
       required: true,
     },
     evidenceNotPresent: {
+      type: Array as PropType<Array<Evidence>>,
+      required: true,
+    },
+    evidenceInCommon: {
       type: Array as PropType<Array<Evidence>>,
       required: true,
     },

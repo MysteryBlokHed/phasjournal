@@ -12,11 +12,13 @@
       :evidenceNotPresent="evidenceNotPresent"
       :updateEvidencePresent="updateEvidencePresent"
       :updateEvidenceNotPresent="updateEvidenceNotPresent"
+      :updateEvidenceInCommon="updateEvidenceInCommon"
     />
     <PotentialGhosts
       :ghosts="potentialGhosts"
       :evidencePresent="evidencePresent"
       :evidenceNotPresent="evidenceNotPresent"
+      :evidenceInCommon="evidenceInCommon"
     />
   </div>
 </template>
@@ -37,6 +39,7 @@ export default defineComponent({
     return {
       evidencePresent: [] as Evidence[],
       evidenceNotPresent: [] as Evidence[],
+      evidenceInCommon: [] as Evidence[],
     }
   },
   computed: {
@@ -76,6 +79,9 @@ export default defineComponent({
     },
     updateEvidenceNotPresent(newEvidence: Evidence[]) {
       this.evidenceNotPresent = newEvidence
+    },
+    updateEvidenceInCommon(newEvidence: Evidence[]) {
+      this.evidenceInCommon = newEvidence
     },
   },
 })

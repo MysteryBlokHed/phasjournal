@@ -65,15 +65,15 @@ export default defineComponent({
       let combinedEvidence = [] as Evidence[][]
       for (let ghost of this.ghosts) combinedEvidence.push(ghost.evidence)
 
-      try {
+      if (this.ghosts.length > 1) {
         let commonEvidence = combinedEvidence.reduce((p, c) =>
           p.filter((e) => c.includes(e))
         )
 
+        this.updateEvidenceInCommon(commonEvidence)
+
         for (let e of commonEvidence)
           if (needed.includes(e)) needed.splice(needed.indexOf(e), 1)
-      } catch {
-        null
       }
 
       return needed
@@ -94,6 +94,7 @@ export default defineComponent({
     },
     updateEvidencePresent: { type: Function, required: true },
     updateEvidenceNotPresent: { type: Function, required: true },
+    updateEvidenceInCommon: { type: Function, required: true },
   },
   methods: {
     evidenceCycle(event: Event) {
@@ -133,6 +134,7 @@ export default defineComponent({
 
       this.updateEvidencePresent([])
       this.updateEvidenceNotPresent([])
+      this.updateEvidenceInCommon([])
     },
   },
 })
