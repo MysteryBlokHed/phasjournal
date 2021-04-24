@@ -7,6 +7,7 @@
       </a>
     </h1>
     <EvidenceSelector
+      :ghosts="potentialGhosts"
       :evidencePresent="evidencePresent"
       :evidenceNotPresent="evidenceNotPresent"
       :updateEvidencePresent="updateEvidencePresent"

@@ -18,12 +18,19 @@
         <button @click="resetEvidence">Reset Evidence</button>
       </li>
     </ul>
+    <div v-if="evidenceNeeded.length">
+      <p>Evidence to Look For:</p>
+      <ul>
+        <li v-for="e in evidenceNeeded" :key="e">{{ e }}</li>
+      </ul>
+    </div>
+    <p v-else>No evidence to look for.</p>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-import { Evidence } from '../types'
+import { Evidence, Ghost } from '../types'
 
 export default defineComponent({
   name: 'EvidenceSelector',
@@ -32,7 +39,51 @@ export default defineComponent({
       evidence: Evidence,
     }
   },
+  computed: {
+    evidenceNeeded() {
+      // If one ghost is left no evidence is needed
+      if (this.ghosts.length === 1) return []
+
+      let needed = [] as Evidence[]
+
+      // Get evidence from all present ghosts
+      for (let ghost of this.ghosts)
+        for (let e of ghost.evidence) if (!needed.includes(e)) needed.push(e)
+
+      // Remove evidence marked as present/not present
+      let newNeeded = needed.slice()
+      for (let e of needed)
+        if (
+          this.evidencePresent.includes(e) ||
+          this.evidenceNotPresent.includes(e)
+        )
+          newNeeded.splice(newNeeded.indexOf(e), 1)
+
+      needed = newNeeded
+
+      let combinedEvidence = [] as Evidence[]
+      for (let ghost of this.ghosts)
+        combinedEvidence = combinedEvidence.concat(ghost.evidence)
+
+      // Remove evidence potential ghosts have in common
+      let commonEvidence = [] as Evidence[]
+      combinedEvidence.filter((v) => {
+        return combinedEvidence.every((a) => {
+          return a.indexOf(v) !== -1
+        })
+      })
+
+      for (let e of commonEvidence)
+        if (needed.includes(e)) needed.splice(needed.indexOf(e), 1)
+
+      return needed
+    },
+  },
   props: {
+    ghosts: {
+      type: Array as PropType<Array<Ghost>>,
+      required: true,
+    },
     evidencePresent: {
       type: Array as PropType<Array<Evidence>>,
       required: true,
@@ -49,8 +100,8 @@ export default defineComponent({
       const target = event.target as HTMLButtonElement
       const buttonEvidence = target.getAttribute('evidence') as Evidence
 
-      let newPresent = [...this.evidencePresent]
-      let newNotPresent = [...this.evidenceNotPresent]
+      let newPresent = this.evidencePresent.slice()
+      let newNotPresent = this.evidenceNotPresent.slice()
 
       switch (target.className) {
         case 'neutral':
@@ -97,16 +148,16 @@ button.not-present {
 }
 </style>
 <style scoped>
-ul {
+ul.evidence-types {
   list-style: none;
   display: inline-block;
 }
 
-li {
+ul.evidence-types li {
   float: left;
 }
 
-li:last-child {
+ul.evidence-types li:last-child {
   margin-left: 5rem;
 }
 
