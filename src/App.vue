@@ -105,7 +105,7 @@ h1 {
 }
 
 h1 a {
-  color: darkblue;
+  color: #00a;
   text-decoration: none;
   font-size: 1.5rem;
 }

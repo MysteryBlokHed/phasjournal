@@ -15,7 +15,7 @@
         </button>
       </li>
       <li>
-        <button @click="resetEvidence">Reset Evidence</button>
+        <button @click="resetEvidence" class="neutral">Reset Evidence</button>
       </li>
     </ul>
   </div>
@@ -138,6 +138,10 @@ button.present {
 
 button.not-present {
   background-color: red;
+}
+
+button.neutral {
+  background-color: #fcecdd;
 }
 </style>
 <style scoped>
