@@ -154,8 +154,10 @@ ul.evidence-types li {
   float: left;
 }
 
-ul.evidence-types li:last-child {
-  margin-left: 5rem;
+@media (min-width: 1001px) {
+  ul.evidence-types li:last-child {
+    margin-left: 5rem;
+  }
 }
 
 span.not-present {

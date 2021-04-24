@@ -4,10 +4,10 @@
     <table v-if="!!ghosts.length">
       <thead>
         <tr>
-          <th width="100">Ghost Type</th>
-          <th width="200">Evidence</th>
-          <th width="300">Strength</th>
-          <th width="300">Weakness</th>
+          <th width="10%">Ghost Type</th>
+          <th width="20%">Evidence</th>
+          <th width="35%">Strength</th>
+          <th width="35%">Weakness</th>
         </tr>
       </thead>
       <tbody align="center">

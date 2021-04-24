@@ -110,6 +110,13 @@ h1 a {
   font-size: 1.5rem;
 }
 
+@media (max-width: 1000px) {
+  #app {
+    /* width: 90%; */
+    margin: 0 auto;
+  }
+}
+
 #app {
   font-family: Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
