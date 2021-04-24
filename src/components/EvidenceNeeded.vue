@@ -19,7 +19,10 @@ export default defineComponent({
   computed: {
     evidenceNeeded() {
       // If one ghost is left no evidence is needed
-      if (this.ghosts.length === 1) return []
+      if (this.ghosts.length === 1) {
+        this.updateEvidenceInCommon(this.ghosts[0].evidence)
+        return []
+      }
 
       let needed = Object.values(Evidence)
       let unneeded = needed.slice()
