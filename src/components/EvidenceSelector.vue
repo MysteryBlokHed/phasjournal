@@ -61,17 +61,13 @@ export default defineComponent({
 
       needed = newNeeded
 
-      let combinedEvidence = [] as Evidence[]
-      for (let ghost of this.ghosts)
-        combinedEvidence = combinedEvidence.concat(ghost.evidence)
-
       // Remove evidence potential ghosts have in common
-      let commonEvidence = [] as Evidence[]
-      combinedEvidence.filter((v) => {
-        return combinedEvidence.every((a) => {
-          return a.indexOf(v) !== -1
-        })
-      })
+      let combinedEvidence = [] as Evidence[][]
+      for (let ghost of this.ghosts) combinedEvidence.push(ghost.evidence)
+
+      let commonEvidence = combinedEvidence.reduce((p, c) =>
+        p.filter((e) => c.includes(e))
+      )
 
       for (let e of commonEvidence)
         if (needed.includes(e)) needed.splice(needed.indexOf(e), 1)
