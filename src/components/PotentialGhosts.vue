@@ -13,11 +13,7 @@
       <tbody align="center">
         <tr v-for="ghost in ghosts" :key="ghost.type">
           <td>{{ ghost.type }}</td>
-          <td
-            v-html="
-              formatEvidence(ghost.evidence, evidencePresent, evidenceInCommon)
-            "
-          ></td>
+          <td v-html="formatEvidence(ghost.evidence)"></td>
           <td>{{ ghost.strength }}</td>
           <td>{{ ghost.weakness }}</td>
         </tr>
@@ -31,33 +27,8 @@
 import { defineComponent, PropType } from 'vue'
 import { Evidence, Ghost } from '../types'
 
-let formatEvidence = (
-  evidence: Evidence[],
-  evidencePresent: Evidence[],
-  evidenceInCommon: Evidence[]
-): string => {
-  let htmlEvidence = [] as Array<string>
-
-  // Format evidence
-  for (let i = 0; i < evidence.length; i++) {
-    let e: Evidence = evidence[i]
-
-    if (evidencePresent.includes(e) || evidenceInCommon.includes(e))
-      htmlEvidence.push(`<span class="present">${e as string}</span>`)
-    else
-      htmlEvidence.push(`<span class="unknown-presence">${e as string}</span>`)
-  }
-
-  return htmlEvidence.join(', ')
-}
-
 export default defineComponent({
   name: 'PotentialGhosts',
-  data() {
-    return {
-      formatEvidence: formatEvidence,
-    }
-  },
   props: {
     ghosts: { type: Array as PropType<Array<Ghost>>, required: true },
     evidencePresent: {
@@ -71,6 +42,27 @@ export default defineComponent({
     evidenceInCommon: {
       type: Array as PropType<Array<Evidence>>,
       required: true,
+    },
+  },
+  methods: {
+    formatEvidence(evidence: Evidence[]) {
+      let htmlEvidence = [] as Array<string>
+
+      for (let i = 0; i < evidence.length; i++) {
+        let e: Evidence = evidence[i]
+
+        if (
+          this.evidencePresent.includes(e) ||
+          this.evidenceInCommon.includes(e)
+        )
+          htmlEvidence.push(`<span class="present">${e as string}</span>`)
+        else
+          htmlEvidence.push(
+            `<span class="unknown-presence">${e as string}</span>`
+          )
+      }
+
+      return htmlEvidence.join(', ')
     },
   },
 })
