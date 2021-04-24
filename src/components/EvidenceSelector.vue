@@ -18,7 +18,7 @@
         <button @click="resetEvidence">Reset Evidence</button>
       </li>
     </ul>
-    <div v-if="evidenceNeeded.length">
+    <div id="unique-i-swear" v-if="evidenceNeeded.length">
       <p>Evidence to Look For:</p>
       <ul>
         <li v-for="e in evidenceNeeded" :key="e">{{ e }}</li>
@@ -65,12 +65,16 @@ export default defineComponent({
       let combinedEvidence = [] as Evidence[][]
       for (let ghost of this.ghosts) combinedEvidence.push(ghost.evidence)
 
-      let commonEvidence = combinedEvidence.reduce((p, c) =>
-        p.filter((e) => c.includes(e))
-      )
+      try {
+        let commonEvidence = combinedEvidence.reduce((p, c) =>
+          p.filter((e) => c.includes(e))
+        )
 
-      for (let e of commonEvidence)
-        if (needed.includes(e)) needed.splice(needed.indexOf(e), 1)
+        for (let e of commonEvidence)
+          if (needed.includes(e)) needed.splice(needed.indexOf(e), 1)
+      } catch {
+        null
+      }
 
       return needed
     },
