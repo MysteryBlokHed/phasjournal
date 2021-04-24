@@ -44,22 +44,21 @@ export default defineComponent({
       // If one ghost is left no evidence is needed
       if (this.ghosts.length === 1) return []
 
-      let needed = [] as Evidence[]
+      let needed = Object.values(Evidence)
+      let unneeded = needed.slice()
 
-      // Get evidence from all present ghosts
+      // Remove evidence not required by any ghost
       for (let ghost of this.ghosts)
-        for (let e of ghost.evidence) if (!needed.includes(e)) needed.push(e)
+        for (let e of ghost.evidence)
+          if (unneeded.includes(e)) unneeded.splice(unneeded.indexOf(e), 1)
+
+      needed = needed.filter((v) => !unneeded.includes(v))
 
       // Remove evidence marked as present/not present
-      let newNeeded = needed.slice()
-      for (let e of needed)
-        if (
-          this.evidencePresent.includes(e) ||
-          this.evidenceNotPresent.includes(e)
-        )
-          newNeeded.splice(newNeeded.indexOf(e), 1)
-
-      needed = newNeeded
+      needed = needed.filter(
+        (v) =>
+          !this.evidencePresent.includes(v) && !this.evidencePresent.includes(v)
+      )
 
       // Remove evidence potential ghosts have in common
       let combinedEvidence = [] as Evidence[][]
@@ -72,8 +71,7 @@ export default defineComponent({
 
         this.updateEvidenceInCommon(commonEvidence)
 
-        for (let e of commonEvidence)
-          if (needed.includes(e)) needed.splice(needed.indexOf(e), 1)
+        needed = needed.filter((v) => !commonEvidence.includes(v))
       }
 
       return needed
