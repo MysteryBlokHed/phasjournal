@@ -1,6 +1,6 @@
 # PhasJournal
 
-A smart journal for Phasmophobia.
+A smart journal for [Phasmophobia](https://store.steampowered.com/app/739630/Phasmophobia/).
 
 ## Purpose
 
