@@ -103,6 +103,14 @@ body {
   font-size: 1.125rem;
 }
 
+button:hover {
+  cursor: pointer;
+}
+
+button:active {
+  filter: brightness(0.75);
+}
+
 h1 {
   font-size: 2.25rem;
 }
