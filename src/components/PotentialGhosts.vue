@@ -74,5 +74,6 @@ table {
   border: 1px solid #fcecdd;
   border-collapse: separate;
   border-spacing: 0 0.5rem;
+  width: 100%;
 }
 </style>
