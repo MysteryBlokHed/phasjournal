@@ -129,10 +129,13 @@ h1 a {
 }
 
 #app {
+  color: #fcecdd;
+}
+
+#app * {
   font-family: Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #fcecdd;
 }
 
 .title {
