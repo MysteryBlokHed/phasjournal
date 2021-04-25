@@ -1,26 +1,30 @@
 <template>
-  <div>
-    <p class="timer">{{ minutes }}:{{ String(seconds).padStart(2, '0') }}</p>
-    <input
-      @change="updateMinutes"
-      class="minutes"
-      type="number"
-      min="0"
-      value="5"
-    />
-    :
-    <input
-      @change="updateSeconds"
-      class="seconds"
-      type="number"
-      min="0"
-      max="59"
-      value="00"
-    />
-    <br />
-    <button class="toggle-timer" @click="toggleTimer">Start Timer</button>
-    <br />
-    <button @click="resetTimer">Reset Timer</button>
+  <div class="container">
+    <div v-if="show">
+      <p class="timer">{{ minutes }}:{{ String(seconds).padStart(2, '0') }}</p>
+      <input
+        @change="updateMinutes"
+        class="minutes"
+        type="number"
+        min="0"
+        value="5"
+      />
+      :
+      <input
+        @change="updateSeconds"
+        class="seconds"
+        type="number"
+        min="0"
+        max="59"
+        value="00"
+      />
+      <br />
+      <button class="toggle-timer" @click="toggleTimer">Start Timer</button>
+      <br />
+      <button @click="resetTimer">Reset Timer</button>
+      <br />
+    </div>
+    <a class="toggle-timer-visible" @click="toggleVisible">Hide</a>
   </div>
 </template>
 
@@ -34,6 +38,7 @@ export default defineComponent({
       minutes: 5,
       seconds: 0,
       ticking: false,
+      show: true,
     }
   },
   methods: {
@@ -73,6 +78,11 @@ export default defineComponent({
       // Make seconds 2-digit
       target.value = target.value.padStart(2, '0')
     },
+    toggleVisible(event: Event) {
+      const target = event.target as HTMLSpanElement
+      target.innerText = this.show ? 'Show' : 'Hide'
+      this.show = !this.show
+    },
   },
   mounted() {
     setInterval(() => {
@@ -88,9 +98,17 @@ export default defineComponent({
 </script>
 
 <style scoped>
+a:hover {
+  cursor: pointer;
+}
+
 .timer {
   font-size: 5rem;
   margin: 0;
+}
+
+div:not(.container) {
+  margin-bottom: 0.75rem;
 }
 
 button {
@@ -129,7 +147,7 @@ input[type='number'] {
 }
 
 @media (min-width: 1001px) {
-  div {
+  div.container {
     width: 15%;
     text-align: center;
     padding: 1rem;
@@ -140,7 +158,7 @@ input[type='number'] {
   }
 }
 
-div {
+div.container {
   text-align: center;
   margin: auto;
 }
