@@ -44,10 +44,6 @@ export default defineComponent({
       const target = event.target as HTMLButtonElement
       const buttonEvidence = target.getAttribute('evidence') as Evidence
 
-      console.log('evidenceCycle run')
-      console.log('evidencePresent before:')
-      console.log(this.evidencePresent)
-
       let newPresent = this.evidencePresent.slice()
       let newNotPresent = this.evidenceNotPresent.slice()
 
@@ -86,15 +82,14 @@ export default defineComponent({
       for (let element of buttons.children)
         element.children[0].className = 'neutral'
 
-      this.evidencePresent = []
-      this.evidenceNotPresent = []
-      this.evidenceInCommon = []
+      this.evidencePresent.length = 0
+      this.evidenceNotPresent.length = 0
+      this.evidenceInCommon.length = 0
 
       this.updatePotentialGhosts()
       this.updateEvidenceNeeded()
     },
     updatePotentialGhosts() {
-      console.log('p. ghosts updated')
       let ghosts = [...AllGhosts]
       let newGhosts
       const evidenceFound = this.evidencePresent.length

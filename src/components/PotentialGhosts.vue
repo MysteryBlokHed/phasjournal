@@ -41,7 +41,7 @@ export default defineComponent({
   },
   methods: {
     formatEvidence(evidence: Evidence[]) {
-      let htmlEvidence = [] as Array<string>
+      let htmlEvidence = [] as string[]
 
       for (let i = 0; i < evidence.length; i++) {
         let e: Evidence = evidence[i]
