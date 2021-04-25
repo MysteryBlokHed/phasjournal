@@ -168,7 +168,6 @@ button {
   width: 9rem;
   height: 9rem;
   font-size: 1.125rem;
-  font-family: Arial, sans-serif;
   margin: 1px;
   border: 0;
 }
