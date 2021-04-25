@@ -6,6 +6,7 @@
         GitHub
       </a>
     </h1>
+    <Timer />
     <EvidenceSelector
       :ghosts="potentialGhosts"
       :evidencePresent="evidencePresent"
@@ -31,9 +32,10 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { Evidence, AllGhosts } from './types'
-import PotentialGhosts from './components/PotentialGhosts.vue'
+import Timer from './components/Timer.vue'
 import EvidenceSelector from './components/EvidenceSelector.vue'
 import EvidenceNeeded from './components/EvidenceNeeded.vue'
+import PotentialGhosts from './components/PotentialGhosts.vue'
 
 export default defineComponent({
   name: 'App',
@@ -41,6 +43,7 @@ export default defineComponent({
     PotentialGhosts,
     EvidenceSelector,
     EvidenceNeeded,
+    Timer,
   },
   data() {
     return {
