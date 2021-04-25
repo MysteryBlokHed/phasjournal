@@ -7,31 +7,14 @@
       </a>
     </h1>
     <Timer />
-    <EvidenceSelector
-      :ghosts="potentialGhosts"
-      :evidencePresent="evidencePresent"
-      :evidenceNotPresent="evidenceNotPresent"
-      :updateEvidencePresent="updateEvidencePresent"
-      :updateEvidenceNotPresent="updateEvidenceNotPresent"
-      :updateEvidenceInCommon="updateEvidenceInCommon"
-    />
-    <EvidenceNeeded
-      :ghosts="potentialGhosts"
-      :evidencePresent="evidencePresent"
-      :updateEvidenceInCommon="updateEvidenceInCommon"
-    />
-    <PotentialGhosts
-      :ghosts="potentialGhosts"
-      :evidencePresent="evidencePresent"
-      :evidenceNotPresent="evidenceNotPresent"
-      :evidenceInCommon="evidenceInCommon"
-    />
+    <EvidenceSelector />
+    <EvidenceNeeded />
+    <PotentialGhosts />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { Evidence, AllGhosts } from './types'
 import Timer from './components/Timer.vue'
 import EvidenceSelector from './components/EvidenceSelector.vue'
 import EvidenceNeeded from './components/EvidenceNeeded.vue'
@@ -44,55 +27,6 @@ export default defineComponent({
     EvidenceSelector,
     EvidenceNeeded,
     Timer,
-  },
-  data() {
-    return {
-      evidencePresent: [] as Evidence[],
-      evidenceNotPresent: [] as Evidence[],
-      evidenceInCommon: [] as Evidence[],
-    }
-  },
-  computed: {
-    potentialGhosts() {
-      let ghosts = [...AllGhosts]
-      let newGhosts
-      const evidenceFound = this.evidencePresent.length
-      // Filter out ghosts by evidence not present
-      for (let i = 0; i < AllGhosts.length; i++)
-        for (let e of this.evidenceNotPresent)
-          if (AllGhosts[i].evidence.includes(e)) {
-            ghosts.splice(ghosts.indexOf(AllGhosts[i]), 1)
-            break
-          }
-
-      newGhosts = [...ghosts]
-
-      // Filter out ghosts who's evidence can not be found with current
-      // found evidence
-
-      for (let i = 0; i < ghosts.length; i++) {
-        let evidenceForGhost = 0
-
-        for (let e of this.evidencePresent)
-          if (ghosts[i].evidence.includes(e)) evidenceForGhost++
-
-        if (evidenceForGhost < evidenceFound)
-          newGhosts.splice(newGhosts.indexOf(ghosts[i]), 1)
-      }
-
-      return newGhosts
-    },
-  },
-  methods: {
-    updateEvidencePresent(newEvidence: Evidence[]) {
-      this.evidencePresent = newEvidence
-    },
-    updateEvidenceNotPresent(newEvidence: Evidence[]) {
-      this.evidenceNotPresent = newEvidence
-    },
-    updateEvidenceInCommon(newEvidence: Evidence[]) {
-      this.evidenceInCommon = newEvidence
-    },
   },
 })
 </script>

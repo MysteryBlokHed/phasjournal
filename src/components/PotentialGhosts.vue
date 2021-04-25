@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Potential Ghosts</h1>
-    <table v-if="!!ghosts.length">
+    <table v-if="ghosts.length">
       <thead>
         <tr>
           <th width="10%">Ghost Type</th>
@@ -24,25 +24,20 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
-import { Evidence, Ghost } from '../types'
+import { defineComponent } from 'vue'
+import { Evidence } from '../types'
+import { ghosts } from '../state/ghosts'
+import { evidence } from '../state/evidence'
 
 export default defineComponent({
   name: 'PotentialGhosts',
-  props: {
-    ghosts: { type: Array as PropType<Array<Ghost>>, required: true },
-    evidencePresent: {
-      type: Array as PropType<Array<Evidence>>,
-      required: true,
-    },
-    evidenceNotPresent: {
-      type: Array as PropType<Array<Evidence>>,
-      required: true,
-    },
-    evidenceInCommon: {
-      type: Array as PropType<Array<Evidence>>,
-      required: true,
-    },
+  data() {
+    return {
+      ghosts: ghosts.ghosts,
+      evidencePresent: evidence.evidencePresent,
+      evidenceNotPresent: evidence.evidenceNotPresent,
+      evidenceInCommon: evidence.evidenceInCommon,
+    }
   },
   methods: {
     formatEvidence(evidence: Evidence[]) {

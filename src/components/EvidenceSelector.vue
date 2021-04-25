@@ -22,20 +22,116 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
-import { Evidence, Ghost } from '../types'
+import { defineComponent } from 'vue'
+import { Evidence, AllGhosts } from '../types'
+import { ghosts } from '../state/ghosts'
+import { evidence } from '../state/evidence'
 
 export default defineComponent({
   name: 'EvidenceSelector',
   data() {
     return {
+      ghosts: ghosts.ghosts,
       evidence: Evidence,
+      evidencePresent: evidence.evidencePresent,
+      evidenceNotPresent: evidence.evidenceNotPresent,
+      evidenceInCommon: evidence.evidenceInCommon,
+      evidenceNeeded: evidence.evidenceNeeded,
     }
   },
-  computed: {
-    evidenceNeeded() {
+  methods: {
+    evidenceCycle(event: Event) {
+      const target = event.target as HTMLButtonElement
+      const buttonEvidence = target.getAttribute('evidence') as Evidence
+
+      console.log('evidenceCycle run')
+      console.log('evidencePresent before:')
+      console.log(this.evidencePresent)
+
+      let newPresent = this.evidencePresent.slice()
+      let newNotPresent = this.evidenceNotPresent.slice()
+
+      switch (target.className) {
+        case 'neutral':
+          newPresent.push(buttonEvidence)
+          this.evidencePresent.length = 0
+          this.evidencePresent.push(...newPresent)
+          target.className = 'present'
+          break
+        case 'present':
+          newPresent.splice(newPresent.indexOf(buttonEvidence), 1)
+          newNotPresent.push(buttonEvidence)
+          this.evidencePresent.length = 0
+          this.evidenceNotPresent.length = 0
+          this.evidencePresent.push(...newPresent)
+          this.evidenceNotPresent.push(...newNotPresent)
+          target.className = 'not-present'
+          break
+        case 'not-present':
+          newNotPresent.splice(newNotPresent.indexOf(buttonEvidence), 1)
+          this.evidenceNotPresent.length = 0
+          this.evidenceNotPresent.push(...newNotPresent)
+          target.className = 'neutral'
+          break
+      }
+
+      this.updatePotentialGhosts()
+      this.updateEvidenceNeeded()
+    },
+    resetEvidence() {
+      const buttons = document.querySelector(
+        '.evidence-types'
+      ) as HTMLUListElement
+
+      for (let element of buttons.children)
+        element.children[0].className = 'neutral'
+
+      this.evidencePresent = []
+      this.evidenceNotPresent = []
+      this.evidenceInCommon = []
+
+      this.updatePotentialGhosts()
+      this.updateEvidenceNeeded()
+    },
+    updatePotentialGhosts() {
+      console.log('p. ghosts updated')
+      let ghosts = [...AllGhosts]
+      let newGhosts
+      const evidenceFound = this.evidencePresent.length
+      // Filter out ghosts by evidence not present
+      for (let i = 0; i < AllGhosts.length; i++)
+        for (let e of this.evidenceNotPresent)
+          if (AllGhosts[i].evidence.includes(e)) {
+            ghosts.splice(ghosts.indexOf(AllGhosts[i]), 1)
+            break
+          }
+
+      newGhosts = [...ghosts]
+
+      // Filter out ghosts who's evidence can not be found with current
+      // found evidence
+
+      for (let i = 0; i < ghosts.length; i++) {
+        let evidenceForGhost = 0
+
+        for (let e of this.evidencePresent)
+          if (ghosts[i].evidence.includes(e)) evidenceForGhost++
+
+        if (evidenceForGhost < evidenceFound)
+          newGhosts.splice(newGhosts.indexOf(ghosts[i]), 1)
+      }
+
+      this.ghosts.length = 0
+      this.ghosts.push(...newGhosts)
+    },
+    updateEvidenceNeeded() {
       // If one ghost is left no evidence is needed
-      if (this.ghosts.length === 1) return []
+      if (this.ghosts.length === 1) {
+        this.evidenceNeeded.length = 0
+        this.evidenceInCommon.length = 0
+        this.evidenceInCommon.push(...this.ghosts[0].evidence)
+        return
+      }
 
       let needed = Object.values(Evidence)
       let unneeded = needed.slice()
@@ -62,70 +158,14 @@ export default defineComponent({
           p.filter((e) => c.includes(e))
         )
 
-        this.updateEvidenceInCommon(commonEvidence)
+        this.evidenceInCommon.length = 0
+        this.evidenceInCommon.push(...commonEvidence)
 
         needed = needed.filter((v) => !commonEvidence.includes(v))
       }
 
-      return needed
-    },
-  },
-  props: {
-    ghosts: {
-      type: Array as PropType<Array<Ghost>>,
-      required: true,
-    },
-    evidencePresent: {
-      type: Array as PropType<Array<Evidence>>,
-      required: true,
-    },
-    evidenceNotPresent: {
-      type: Array as PropType<Array<Evidence>>,
-      required: true,
-    },
-    updateEvidencePresent: { type: Function, required: true },
-    updateEvidenceNotPresent: { type: Function, required: true },
-    updateEvidenceInCommon: { type: Function, required: true },
-  },
-  methods: {
-    evidenceCycle(event: Event) {
-      const target = event.target as HTMLButtonElement
-      const buttonEvidence = target.getAttribute('evidence') as Evidence
-
-      let newPresent = this.evidencePresent.slice()
-      let newNotPresent = this.evidenceNotPresent.slice()
-
-      switch (target.className) {
-        case 'neutral':
-          newPresent.push(buttonEvidence)
-          this.updateEvidencePresent(newPresent)
-          target.className = 'present'
-          break
-        case 'present':
-          newPresent.splice(newPresent.indexOf(buttonEvidence), 1)
-          newNotPresent.push(buttonEvidence)
-          this.updateEvidencePresent(newPresent)
-          this.updateEvidenceNotPresent(newNotPresent)
-          target.className = 'not-present'
-          break
-        case 'not-present':
-          newNotPresent.splice(newNotPresent.indexOf(buttonEvidence), 1)
-          this.updateEvidenceNotPresent(newNotPresent)
-          target.className = 'neutral'
-          break
-      }
-    },
-    resetEvidence() {
-      const buttons = document.querySelector(
-        '.evidence-types'
-      ) as HTMLUListElement
-
-      for (let element of buttons.children)
-        element.children[0].className = 'neutral'
-
-      this.updateEvidencePresent([])
-      this.updateEvidenceNotPresent([])
-      this.updateEvidenceInCommon([])
+      this.evidenceNeeded.length = 0
+      this.evidenceNeeded.push(...needed)
     },
   },
 })
