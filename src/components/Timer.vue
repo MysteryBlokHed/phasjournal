@@ -65,7 +65,7 @@ export default defineComponent({
     updateMinutes(event: Event) {
       const target = event.target as HTMLInputElement
       const minutes = parseInt(target.value)
-      this.minutes = minutes > 0 ? minutes : 1
+      this.minutes = minutes > 0 ? minutes : 0
     },
     updateSeconds(event: Event) {
       const target = event.target as HTMLInputElement
@@ -89,8 +89,15 @@ export default defineComponent({
       if (this.ticking)
         if (this.seconds > 0) this.seconds--
         else {
-          this.seconds = 59
-          this.minutes--
+          if (this.minutes > 0) {
+            this.seconds = 59
+            this.minutes--
+          } else {
+            const toggle = document.querySelector(
+              '.toggle-timer'
+            ) as HTMLButtonElement
+            toggle.click()
+          }
         }
     }, 1000)
   },
