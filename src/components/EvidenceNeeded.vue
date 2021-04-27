@@ -12,18 +12,14 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { ghosts } from '../state/ghosts'
-import { evidence } from '../state/evidence'
+import store from '../state'
 
 export default defineComponent({
   name: 'EvidenceNeeded',
   data() {
     return {
-      ghosts: ghosts.ghosts,
-      evidencePresent: evidence.evidencePresent,
-      evidenceNotPresent: evidence.evidenceNotPresent,
-      evidenceInCommon: evidence.evidenceInCommon,
-      evidenceNeeded: evidence.evidenceNeeded,
+      ghosts: store.state.ghosts,
+      evidenceNeeded: store.state.evidenceNeeded,
     }
   },
 })

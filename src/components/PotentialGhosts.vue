@@ -26,17 +26,16 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { Evidence } from '../types'
-import { ghosts } from '../state/ghosts'
-import { evidence } from '../state/evidence'
+import store from '../state'
 
 export default defineComponent({
   name: 'PotentialGhosts',
   data() {
     return {
-      ghosts: ghosts.ghosts,
-      evidencePresent: evidence.evidencePresent,
-      evidenceNotPresent: evidence.evidenceNotPresent,
-      evidenceInCommon: evidence.evidenceInCommon,
+      ghosts: store.state.ghosts,
+      evidencePresent: store.state.evidencePresent,
+      evidenceNotPresent: store.state.evidenceNotPresent,
+      evidenceInCommon: store.state.evidenceInCommon,
     }
   },
   methods: {

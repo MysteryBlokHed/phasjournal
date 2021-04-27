@@ -24,19 +24,18 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { Evidence, AllGhosts } from '../types'
-import { ghosts } from '../state/ghosts'
-import { evidence } from '../state/evidence'
+import store from '../state'
 
 export default defineComponent({
   name: 'EvidenceSelector',
   data() {
     return {
-      ghosts: ghosts.ghosts,
+      ghosts: store.state.ghosts,
       evidence: Evidence,
-      evidencePresent: evidence.evidencePresent,
-      evidenceNotPresent: evidence.evidenceNotPresent,
-      evidenceInCommon: evidence.evidenceInCommon,
-      evidenceNeeded: evidence.evidenceNeeded,
+      evidencePresent: store.state.evidencePresent,
+      evidenceNotPresent: store.state.evidenceNotPresent,
+      evidenceInCommon: store.state.evidenceInCommon,
+      evidenceNeeded: store.state.evidenceNeeded,
     }
   },
   methods: {
@@ -50,23 +49,19 @@ export default defineComponent({
       switch (target.className) {
         case 'neutral':
           newPresent.push(buttonEvidence)
-          this.evidencePresent.length = 0
-          this.evidencePresent.push(...newPresent)
+          store.setEvidencePresent(newPresent)
           target.className = 'present'
           break
         case 'present':
           newPresent.splice(newPresent.indexOf(buttonEvidence), 1)
           newNotPresent.push(buttonEvidence)
-          this.evidencePresent.length = 0
-          this.evidenceNotPresent.length = 0
-          this.evidencePresent.push(...newPresent)
-          this.evidenceNotPresent.push(...newNotPresent)
+          store.setEvidencePresent(newPresent)
+          store.setEvidenceNotPresent(newNotPresent)
           target.className = 'not-present'
           break
         case 'not-present':
           newNotPresent.splice(newNotPresent.indexOf(buttonEvidence), 1)
-          this.evidenceNotPresent.length = 0
-          this.evidenceNotPresent.push(...newNotPresent)
+          store.setEvidenceNotPresent(newNotPresent)
           target.className = 'neutral'
           break
       }
@@ -82,9 +77,9 @@ export default defineComponent({
       for (let element of buttons.children)
         element.children[0].className = 'neutral'
 
-      this.evidencePresent.length = 0
-      this.evidenceNotPresent.length = 0
-      this.evidenceInCommon.length = 0
+      store.clearEvidencePresent()
+      store.clearEvidenceNotPresent()
+      store.clearEvidenceInCommon()
 
       this.updatePotentialGhosts()
       this.updateEvidenceNeeded()
@@ -116,15 +111,13 @@ export default defineComponent({
           newGhosts.splice(newGhosts.indexOf(ghosts[i]), 1)
       }
 
-      this.ghosts.length = 0
-      this.ghosts.push(...newGhosts)
+      store.setGhosts(ghosts)
     },
     updateEvidenceNeeded() {
       // If one ghost is left no evidence is needed
       if (this.ghosts.length === 1) {
-        this.evidenceNeeded.length = 0
-        this.evidenceInCommon.length = 0
-        this.evidenceInCommon.push(...this.ghosts[0].evidence)
+        store.clearEvidenceNeeded()
+        store.setEvidenceInCommon(this.ghosts[0].evidence)
         return
       }
 
@@ -153,14 +146,12 @@ export default defineComponent({
           p.filter((e) => c.includes(e))
         )
 
-        this.evidenceInCommon.length = 0
-        this.evidenceInCommon.push(...commonEvidence)
+        store.setEvidenceInCommon(commonEvidence)
 
         needed = needed.filter((v) => !commonEvidence.includes(v))
       }
 
-      this.evidenceNeeded.length = 0
-      this.evidenceNeeded.push(...needed)
+      store.setEvidenceNeeded(needed)
     },
   },
 })
