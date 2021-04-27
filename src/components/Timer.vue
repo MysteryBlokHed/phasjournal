@@ -39,14 +39,34 @@ export default defineComponent({
       seconds: 0,
       ticking: false,
       show: true,
+      interval: -1,
     }
   },
   methods: {
     toggleTimer(event: Event): void {
       const target = event.target as HTMLButtonElement
 
-      if (this.ticking) target.innerText = 'Start Timer'
-      else target.innerText = 'Stop Timer'
+      if (this.ticking) {
+        target.innerText = 'Start Timer'
+        clearInterval(this.interval)
+      } else {
+        target.innerText = 'Stop Timer'
+        this.interval = setInterval(() => {
+          if (this.ticking)
+            if (this.seconds > 0) this.seconds--
+            else {
+              if (this.minutes > 0) {
+                this.seconds = 59
+                this.minutes--
+              } else {
+                const toggle = document.querySelector(
+                  '.toggle-timer'
+                ) as HTMLButtonElement
+                toggle.click()
+              }
+            }
+        }, 1000)
+      }
 
       this.ticking = !this.ticking
     },
@@ -57,6 +77,7 @@ export default defineComponent({
         '.toggle-timer'
       ) as HTMLButtonElement
 
+      clearInterval(this.interval)
       this.ticking = false
       this.minutes = parseInt(minutes.value)
       this.seconds = parseInt(seconds.value)
@@ -83,23 +104,6 @@ export default defineComponent({
       target.innerText = this.show ? 'Show' : 'Hide'
       this.show = !this.show
     },
-  },
-  mounted() {
-    setInterval(() => {
-      if (this.ticking)
-        if (this.seconds > 0) this.seconds--
-        else {
-          if (this.minutes > 0) {
-            this.seconds = 59
-            this.minutes--
-          } else {
-            const toggle = document.querySelector(
-              '.toggle-timer'
-            ) as HTMLButtonElement
-            toggle.click()
-          }
-        }
-    }, 1000)
   },
 })
 </script>
