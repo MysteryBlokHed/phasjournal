@@ -42,7 +42,7 @@ export default defineComponent({
     }
   },
   methods: {
-    toggleTimer(event: Event) {
+    toggleTimer(event: Event): void {
       const target = event.target as HTMLButtonElement
 
       if (this.ticking) target.innerText = 'Start Timer'
@@ -62,12 +62,12 @@ export default defineComponent({
       this.seconds = parseInt(seconds.value)
       toggle.innerText = 'Start Timer'
     },
-    updateMinutes(event: Event) {
+    updateMinutes(event: Event): void {
       const target = event.target as HTMLInputElement
       const minutes = parseInt(target.value)
       this.minutes = minutes > 0 ? minutes : 0
     },
-    updateSeconds(event: Event) {
+    updateSeconds(event: Event): void {
       const target = event.target as HTMLInputElement
       const seconds = parseInt(target.value)
       if (seconds < 59 && seconds > 0) this.seconds = seconds
@@ -78,7 +78,7 @@ export default defineComponent({
       // Make seconds 2-digit
       target.value = target.value.padStart(2, '0')
     },
-    toggleVisible(event: Event) {
+    toggleVisible(event: Event): void {
       const target = event.target as HTMLSpanElement
       target.innerText = this.show ? 'Show' : 'Hide'
       this.show = !this.show

@@ -39,7 +39,7 @@ export default defineComponent({
     }
   },
   methods: {
-    evidenceCycle(event: Event) {
+    evidenceCycle(event: Event): void {
       const target = event.target as HTMLButtonElement
       const buttonEvidence = target.getAttribute('evidence') as Evidence
 
@@ -69,7 +69,7 @@ export default defineComponent({
       this.updatePotentialGhosts()
       this.updateEvidenceNeeded()
     },
-    resetEvidence() {
+    resetEvidence(): void {
       const buttons = document.querySelector(
         '.evidence-types'
       ) as HTMLUListElement
@@ -84,7 +84,7 @@ export default defineComponent({
       this.updatePotentialGhosts()
       this.updateEvidenceNeeded()
     },
-    updatePotentialGhosts() {
+    updatePotentialGhosts(): void {
       let ghosts = [...AllGhosts]
       let newGhosts
       const evidenceFound = this.evidencePresent.length
@@ -113,7 +113,7 @@ export default defineComponent({
 
       store.setGhosts(ghosts)
     },
-    updateEvidenceNeeded() {
+    updateEvidenceNeeded(): void {
       // If one ghost is left no evidence is needed
       if (this.ghosts.length === 1) {
         store.clearEvidenceNeeded()
