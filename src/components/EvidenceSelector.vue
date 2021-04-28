@@ -23,7 +23,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { Evidence, AllGhosts } from '../types'
+import { Evidence, Ghost, AllGhosts } from '../types'
 import store from '../state'
 
 export default defineComponent({
@@ -86,7 +86,7 @@ export default defineComponent({
     },
     updatePotentialGhosts(): void {
       let ghosts = [...AllGhosts]
-      let newGhosts
+      let newGhosts = [] as Ghost[]
       const evidenceFound = this.evidencePresent.length
       // Filter out ghosts by evidence not present
       for (let i = 0; i < AllGhosts.length; i++)
@@ -111,7 +111,7 @@ export default defineComponent({
           newGhosts.splice(newGhosts.indexOf(ghosts[i]), 1)
       }
 
-      store.setGhosts(ghosts)
+      store.setGhosts(newGhosts)
     },
     updateEvidenceNeeded(): void {
       // If one ghost is left no evidence is needed
