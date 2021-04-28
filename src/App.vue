@@ -55,15 +55,9 @@ h1 a {
   font-size: 1.5rem;
 }
 
-@media (max-width: 1000px) {
-  #app {
-    /* width: 90%; */
-    margin: 0 auto;
-  }
-}
-
 #app {
   color: #fcecdd;
+  margin: 0 auto;
 }
 
 #app * {

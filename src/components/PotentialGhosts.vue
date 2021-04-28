@@ -1,24 +1,42 @@
 <template>
   <div>
     <h1>Potential Ghosts</h1>
-    <table v-if="ghosts.length">
-      <thead>
-        <tr>
-          <th width="10%">Ghost Type</th>
-          <th width="20%">Evidence</th>
-          <th width="35%">Strength</th>
-          <th width="35%">Weakness</th>
-        </tr>
-      </thead>
-      <tbody align="center">
-        <tr v-for="ghost in ghosts" :key="ghost.type">
-          <td>{{ ghost.type }}</td>
-          <td v-html="formatEvidence(ghost.evidence)"></td>
-          <td>{{ ghost.strength }}</td>
-          <td>{{ ghost.weakness }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="container" v-if="ghosts">
+      <div class="ghosts-column type">
+        <div>
+          <div>Type</div>
+          <div v-for="ghost in ghosts" :key="ghost.type">
+            {{ ghost.type }}
+          </div>
+        </div>
+      </div>
+      <div class="ghosts-column evidence">
+        <div>
+          <div>Evidence</div>
+          <div
+            v-for="ghost in ghosts"
+            :key="ghost.type"
+            v-html="formatEvidence(ghost.evidence)"
+          ></div>
+        </div>
+      </div>
+      <div v-if="!isMobile" class="ghosts-column strength">
+        <div>
+          <div>Strength</div>
+          <div v-for="ghost in ghosts" :key="ghost.type">
+            {{ ghost.strength }}
+          </div>
+        </div>
+      </div>
+      <div v-if="!isMobile" class="ghosts-column weakness">
+        <div>
+          <div>Weakness</div>
+          <div v-for="ghost in ghosts" :key="ghost.type">
+            {{ ghost.weakness }}
+          </div>
+        </div>
+      </div>
+    </div>
     <p v-else>No possible ghosts.</p>
   </div>
 </template>
@@ -36,6 +54,7 @@ export default defineComponent({
       evidencePresent: store.state.evidencePresent,
       evidenceNotPresent: store.state.evidenceNotPresent,
       evidenceInCommon: store.state.evidenceInCommon,
+      isMobile: navigator.userAgent.match(/mobile/i),
     }
   },
   methods: {
@@ -68,11 +87,22 @@ span.present {
 }
 </style>
 <style scoped>
-table {
-  padding: 0.5rem;
-  border: 1px solid #fcecdd;
-  border-collapse: separate;
-  border-spacing: 0 0.5rem;
-  width: 100%;
+@media (max-width: 800px) {
+  .container {
+    font-size: 0.75rem;
+  }
+}
+
+.ghosts-column {
+  display: inline-block;
+  margin: 5px;
+}
+
+.ghosts-column div {
+  list-style: none;
+}
+
+.ghosts-column div div:first-child {
+  font-weight: bold;
 }
 </style>
