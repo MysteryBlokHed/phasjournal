@@ -92,4 +92,16 @@ export const AllGhosts: Array<Ghost> = [
     strength: 'More active with more people and can moves objects fast',
     weakness: 'Being more active makes it easier to find',
   },
+  {
+    type: 'Hantu',
+    evidence: [Evidence.Fingerprints, Evidence.GhostOrbs, Evidence.GhostWriting],
+    strength: 'Moves faster at lower temperatures',
+    weakness: 'Moves slower at higher temperatures',
+  },
+  {
+    type: 'Yokai',
+    evidence: [Evidence.SpiritBox, Evidence.GhostOrbs, Evidence.GhostWriting],
+    strength: 'Talking near the ghost increses attack chance',
+    weakness: 'Can only hear nearby voices when hunting',
+  },
 ]
