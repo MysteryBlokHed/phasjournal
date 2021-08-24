@@ -1,9 +1,6 @@
 <h1 align="center">PhasJournal</h1>
 <!-- Shields.io Badges -->
 <p align="center">
-  <a href="https://github.com/MysteryBlokHed/phasjournal/releases">
-    <img src="https://img.shields.io/github/v/release/MysteryBlokHed/phasjournal?color=white" />
-  </a>
   <a href="https://v3.vuejs.org/">
     <img src="https://img.shields.io/github/package-json/dependency-version/MysteryBlokHed/phasjournal/vue?color=41b883" />
   </a>
