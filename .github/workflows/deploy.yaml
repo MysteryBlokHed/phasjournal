@@ -6,6 +6,9 @@ on:
   push:
     branches:
       - master
+    paths:
+      - src/**
+      - '**/*.js*'
 
 env:
   # Name of the script to build the project (eg. `build` for `npm run build`)
