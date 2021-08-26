@@ -1,11 +1,19 @@
-name: "CodeQL"
+name: CodeQL
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - master
+    paths:
+      - src/**
+      - '**/*.js*'
   pull_request:
     # The branches below must be a subset of the branches above
-    branches: [ master ]
+    branches:
+      - master
+    paths:
+      - src/**
+      - '**/*.js*'
   schedule:
     - cron: '00 00 * * 1'
 
