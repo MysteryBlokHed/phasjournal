@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="evidenceNeeded.length">
-      <p>Evidence to Look For:</p>
+      <h2>Evidence to Look For</h2>
       <ul>
         <li v-for="e in evidenceNeeded" :key="e">{{ e }}</li>
       </ul>
