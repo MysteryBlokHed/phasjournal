@@ -9,7 +9,7 @@
   </a>
 </p>
 <!-- End of Badges -->
-<p align="center">A smart journal for
+<p align="center">A dynamic journal for
 <a href="https://store.steampowered.com/app/739630/Phasmophobia/">Phasmophobia</a>.</p>
 
 ## Purpose
@@ -20,22 +20,26 @@ there/not there and be given a list of the possible ghosts along
 with what evidence they require and their strengths/weaknesses.
 
 ## Project setup
-```
+
+```sh
 yarn install
 ```
 
 ### Compiles and hot-reloads for development
-```
+
+```sh
 yarn serve
 ```
 
 ### Compiles and minifies for production
-```
+
+```sh
 yarn build
 ```
 
 ### Lints and fixes files
-```
+
+```sh
 yarn lint
 ```
 
