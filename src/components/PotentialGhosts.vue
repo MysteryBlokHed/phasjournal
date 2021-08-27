@@ -1,40 +1,57 @@
 <template>
   <div>
     <h1>Potential Ghosts</h1>
-    <div class="container" v-if="ghosts">
-      <div class="ghosts-column type">
-        <div>
-          <div>Type</div>
-          <div v-for="ghost in ghosts" :key="ghost.type">
+    <div v-if="ghosts">
+      <div class="container" v-if="!smallScreen">
+        <div class="ghosts-column type">
+          <div>
+            <div>Type</div>
+            <div v-for="ghost in ghosts" :key="ghost.type">
+              {{ ghost.type }}
+            </div>
+          </div>
+        </div>
+        <div class="ghosts-column evidence">
+          <div>
+            <div>Evidence</div>
+            <div
+              v-for="ghost in ghosts"
+              :key="ghost.type"
+              v-html="formatEvidence(ghost.evidence)"
+            ></div>
+          </div>
+        </div>
+        <div class="ghosts-column strength">
+          <div>
+            <div>Strength</div>
+            <div v-for="ghost in ghosts" :key="ghost.type">
+              {{ ghost.strength }}
+            </div>
+          </div>
+        </div>
+        <div class="ghosts-column weakness">
+          <div>
+            <div>Weakness</div>
+            <div v-for="ghost in ghosts" :key="ghost.type">
+              {{ ghost.weakness }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container" v-else>
+        <ul>
+          <li v-for="ghost in ghosts" :key="ghost.type">
             {{ ghost.type }}
-          </div>
-        </div>
-      </div>
-      <div class="ghosts-column evidence">
-        <div>
-          <div>Evidence</div>
-          <div
-            v-for="ghost in ghosts"
-            :key="ghost.type"
-            v-html="formatEvidence(ghost.evidence)"
-          ></div>
-        </div>
-      </div>
-      <div v-if="!isMobile" class="ghosts-column strength">
-        <div>
-          <div>Strength</div>
-          <div v-for="ghost in ghosts" :key="ghost.type">
-            {{ ghost.strength }}
-          </div>
-        </div>
-      </div>
-      <div v-if="!isMobile" class="ghosts-column weakness">
-        <div>
-          <div>Weakness</div>
-          <div v-for="ghost in ghosts" :key="ghost.type">
-            {{ ghost.weakness }}
-          </div>
-        </div>
+            <ul>
+              <li>
+                Evidence:
+                <span v-html="formatEvidence(ghost.evidence)"></span>
+              </li>
+              <li>Strength: {{ ghost.strength }}</li>
+              <li>Weakness: {{ ghost.weakness }}</li>
+            </ul>
+          </li>
+        </ul>
       </div>
     </div>
     <p v-else>No possible ghosts.</p>
@@ -54,7 +71,7 @@ export default defineComponent({
       evidencePresent: store.state.evidencePresent,
       evidenceNotPresent: store.state.evidenceNotPresent,
       evidenceInCommon: store.state.evidenceInCommon,
-      isMobile: navigator.userAgent.match(/mobile/i),
+      smallScreen: false,
     }
   },
   methods: {
@@ -77,6 +94,17 @@ export default defineComponent({
 
       return htmlEvidence.join(', ')
     },
+    resizeHandler() {
+      if (window.innerWidth < 1200) this.smallScreen = true
+      else this.smallScreen = false
+    },
+  },
+  created() {
+    window.addEventListener('resize', this.resizeHandler)
+    this.resizeHandler()
+  },
+  unmounted() {
+    window.removeEventListener('resize', this.resizeHandler)
   },
 })
 </script>
@@ -87,12 +115,6 @@ span.present {
 }
 </style>
 <style scoped>
-@media (max-width: 800px) {
-  .container {
-    font-size: 0.75rem;
-  }
-}
-
 .ghosts-column {
   display: inline-block;
   margin: 5px;
