@@ -2,7 +2,7 @@
   <div>
     <h1>Evidence</h1>
     <p>
-      Click on evidence to toggle it.
+      Click on evidence to change its state.
       <span class="present">Green</span>
       = Present,
       <span class="not-present">Red</span>
