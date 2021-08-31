@@ -14,10 +14,11 @@
 
 ## Purpose
 
-PhasJournal is a web app that allows you to better find out
-what ghost you're hunting. You can select which evidence is
-there/not there and be given a list of the possible ghosts along
-with what evidence they require and their strengths/weaknesses.
+
+PhasJournal is a web app that allows you to eliminate ghosts and find out what
+evidence you need to look for based on what evidence is present/not present.
+You'll see a list of potential ghosts along with their strengths, weaknesses,
+and the evidence they need.
 
 ## Project setup
 
