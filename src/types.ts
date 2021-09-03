@@ -78,7 +78,7 @@ export const AllGhosts: Array<Ghost> = [
   },
   {
     type: 'Shade',
-    evidence: [Evidence.Emf5, Evidence.GhostOrbs, Evidence.Freezing],
+    evidence: [Evidence.Emf5, Evidence.GhostWriting, Evidence.Freezing],
     strength: 'Being shy makes the ghost harder to find',
     weakness: `Doesn't hunt with multiple people nearby`,
   },
