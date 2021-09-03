@@ -106,7 +106,7 @@ export const AllGhosts: Array<Ghost> = [
     evidence: [
       Evidence.Fingerprints,
       Evidence.GhostOrbs,
-      Evidence.GhostWriting,
+      Evidence.Freezing,
     ],
     strength: 'Moves faster at lower temperatures',
     weakness: 'Moves slower at higher temperatures',
