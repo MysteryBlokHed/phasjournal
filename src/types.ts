@@ -103,11 +103,7 @@ export const AllGhosts: Array<Ghost> = [
   },
   {
     type: 'Hantu',
-    evidence: [
-      Evidence.Fingerprints,
-      Evidence.GhostOrbs,
-      Evidence.Freezing,
-    ],
+    evidence: [Evidence.Fingerprints, Evidence.GhostOrbs, Evidence.Freezing],
     strength: 'Moves faster at lower temperatures',
     weakness: 'Moves slower at higher temperatures',
   },
