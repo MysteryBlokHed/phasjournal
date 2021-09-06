@@ -35,7 +35,7 @@ export const AllGhosts: Array<Ghost> = [
       Evidence.Fingerprints,
       Evidence.DotsProjector,
     ],
-    strength: 'Looking at a it significantly lowers your sanity',
+    strength: 'Looking at it significantly lowers your sanity',
     weakness: 'Taking a photo will make it go away for some time',
   },
   {
