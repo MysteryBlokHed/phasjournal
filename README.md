@@ -12,6 +12,9 @@
 <p align="center">A dynamic journal for
 <a href="https://store.steampowered.com/app/739630/Phasmophobia/">Phasmophobia</a>.</p>
 
+**With update 0.3.1.0, all the features added with this website are now in-game,
+so this repository has been archived.**
+
 ## Purpose
 
 
